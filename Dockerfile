@@ -1,6 +1,8 @@
 FROM php:8.3-apache
 
 RUN docker-php-ext-install mysqli pdo_mysql
+RUN a2dismod mpm_event mpm_worker || true \
+    && a2enmod mpm_prefork
 
 WORKDIR /var/www/html
 COPY . /var/www/html/
