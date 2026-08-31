@@ -8,7 +8,12 @@ if (empty($_POST['nama'])) {
     exit;
 }
 
-$query = mysqli_query($con, "INSERT INTO jabatan SET nama_jabatan ='$_POST[nama]'");
+$nama = mysqli_real_escape_string($con, $_POST['nama']);
+$idResult = mysqli_query($con, "SELECT COALESCE(MAX(id), 0) + 1 AS next_id FROM jabatan");
+$idData = mysqli_fetch_assoc($idResult);
+$id = (int) $idData['next_id'];
+
+$query = mysqli_query($con, "INSERT INTO jabatan SET id = '$id', nama_jabatan = '$nama'");
 
 if ($query) {
     echo "Data berhasil disimpan";

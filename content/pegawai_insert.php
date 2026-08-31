@@ -38,10 +38,14 @@ if ($error == "") {
     $nama = mysqli_real_escape_string($con, $_POST['nama']);
     $jk = mysqli_real_escape_string($con, $_POST['jk']);
     $jabatan = (int) $_POST['jabatan'];
+    $idResult = mysqli_query($con, "SELECT COALESCE(MAX(id), 0) + 1 AS next_id FROM pegawai");
+    $idData = mysqli_fetch_assoc($idResult);
+    $id = (int) $idData['next_id'];
 
     $query = mysqli_query(
         $con,
         "INSERT INTO pegawai SET
+            id = '$id',
             foto = '$nama_foto',
             nama_pegawai = '$nama',
             jenis_kelamin = '$jk',
