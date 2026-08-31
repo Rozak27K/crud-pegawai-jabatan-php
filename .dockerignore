@@ -1,0 +1,7 @@
+.git
+.agents
+.codex
+.vscode
+node_modules
+vendor
+*.log
