@@ -29,7 +29,7 @@ global $con;
             <label>Jenis Kelamin</label>
             <div class="input radio-group">
                 <label>
-                    <input type="radio" id="jk-l" name="jk" value="L">
+                    <input type="radio" id="jk-l" name="jk" value="L" required>
                     Laki-laki
                 </label>
 
@@ -37,6 +37,13 @@ global $con;
                     <input type="radio" id="jk-p" name="jk" value="P">
                     Perempuan
                 </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="tanggal">Tanggal Lahir</label>
+            <div class="input">
+                <input type="date" name="tanggal" id="tanggal">
             </div>
         </div>
 

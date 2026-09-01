@@ -8,8 +8,16 @@ global $con;
 $error = "";
 $nama_foto = "";
 
+if (empty($_POST['nama'])) {
+    $error = "Nama harus diisi";
+} elseif (empty($_POST['jk'])) {
+    $error = "Jenis kelamin harus dipilih";
+} elseif (empty($_POST['jabatan'])) {
+    $error = "Jabatan harus dipilih";
+}
+
 // Proses upload foto
-if (isset($_FILES['foto']) && $_FILES['foto']['name'] != "") {
+if ($error == "" && isset($_FILES['foto']) && $_FILES['foto']['name'] != "") {
 
     $foto = $_FILES['foto']['name'];
     $lokasi = $_FILES['foto']['tmp_name'];
@@ -37,6 +45,9 @@ if ($error == "") {
 
     $nama = mysqli_real_escape_string($con, $_POST['nama']);
     $jk = mysqli_real_escape_string($con, $_POST['jk']);
+    $tanggal = !empty($_POST['tanggal'])
+        ? "'" . mysqli_real_escape_string($con, $_POST['tanggal']) . "'"
+        : "NULL";
     $jabatan = (int) $_POST['jabatan'];
     $idResult = mysqli_query($con, "SELECT COALESCE(MAX(id), 0) + 1 AS next_id FROM pegawai");
     $idData = mysqli_fetch_assoc($idResult);
@@ -49,6 +60,7 @@ if ($error == "") {
             foto = '$nama_foto',
             nama_pegawai = '$nama',
             jenis_kelamin = '$jk',
+            tgl_lahir = $tanggal,
             id_jabatan = '$jabatan'"
     );
 
@@ -65,12 +77,9 @@ if ($error == "") {
 
 } else {
 
-    echo $error;
-
     echo "<script>
-        setTimeout(function() {
-            window.location='?hal=pegawai_tambah';
-        }, 1000);
+        alert('$error');
+        window.location='?hal=pegawai_tambah';
     </script>";
 
     exit;
